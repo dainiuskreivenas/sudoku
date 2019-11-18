@@ -1,15 +1,13 @@
 import os,sys,inspect
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
-sys.path.insert(0, parent_dir) 
+sys.path.insert(0, parent_dir)
 
 #import pyNN.spiNNaker as sim
 import pyNN.nest as sim
 
 from Sudoku6 import Sudoku6
 import logging
-import numpy as np
-import datetime
 from sudoku6_puzzles import puzzles
 
 
@@ -23,14 +21,17 @@ sudoku6 = Sudoku6(sim, "nest")
 logging.info("Running Simulation")
 sudoku6.run(puzzles)
 
+
 sudoku6.printSpikes()
 
 """
+
 Single puzzle spikes (useless for more than 1, 
 just use print spikes and interpolate results):
 
-print "neuron - {}".format(sudoku6.rbs.net.neuron)
-print "synapses - {}".format(len(sudoku6.rbs.net.connections))
+
+print "neurons - {}".format(sudoku6.narc.exe.neuron)
+print "synapses - {}".format(sudoku6.narc.exe.connections)
 
 data = {}
 def getData(population):
@@ -42,17 +43,17 @@ def getData(population):
 
     return d
     
-
-for g in sudoku6.rbs.net.facts:
-    for f in sudoku6.rbs.net.facts[g]:
+groups = sudoku6.narc.factGroupRepository.get()
+for g in groups:
+    for f in groups[g]:
         min = 10000
-        pop = sudoku6.rbs.get_population(f.ca[0])
+        pop = sudoku6.narc.exe.getPopulationFromCA(f.caIndex)
         d = getData(pop)
-        st = d.segments[0].spiketrains[f.ca[0]-pop.fromIndex]
+        st = d.segments[0].spiketrains[f.caIndex-pop.fromIndex]
         if len(st) > 0:
             min = st.magnitude[0]
         hasSpiked = len(st) > 0
-        print "(f-{} - {} {}) - {} - at {}".format(f.index, f.group, f.attributes, hasSpiked, min)
+        print "(f-{} - {} {}) - {} - at {}".format(f.caIndex, f.group, f.attributes, hasSpiked, min)
 
 assertionTimes = {}
 

@@ -5,13 +5,13 @@ Sudoku is a logic-based, combinatorial number-placement puzzle. The objective is
 To run the 6x6 tests:
 
 1. Open terminal at root of the Repository
-2. Type: python ./tests/Sudoku6_Test.py > ./tests/results/sudoku6.txt
+2. Type: ./run6x6Tests.sh
 3. Press enter
 
 To run the 9x9 tests:
 
 1. Open terminal at root of the Repository
-2. Type: python ./tests/Sudoku9_Test.py > ./tests/results/sudoku9.txt
+2. Type: ./run6x6Tests.sh
 3. Press enter
 
 The results will be printed out to "./sudoku/tests/results" folder
